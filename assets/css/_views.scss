@@ -1,0 +1,30 @@
+article {
+  &.welcome {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+  }
+  &.insumos,
+  &.items,
+  &.capitulos,
+  &.subcapitulos,
+  &.presupuestos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    .table {
+      height: auto;
+      max-height: calc(100% - 3rem);
+      width: 100%;
+      & + .btn {
+        margin: auto 0 0 auto;
+      }
+    }
+  }
+  &.eliminar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
