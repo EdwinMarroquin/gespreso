@@ -1,7 +1,7 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output
-from components import logo
+from components import logo, navigate
 from pages import dashboard_inicio, dashboard_insumos, dashboard_items, dashboard_subcapitulos, dashboard_capitulos, dashboard_presupuestos
 
 app = dash.Dash(__name__)
@@ -17,32 +17,18 @@ def layout(view=None):
     lyD = dashboard_capitulos.layout() if view == "capitulos" else lyD
     lyD = dashboard_presupuestos.layout() if view == "presupuestos" else lyD
 
+    str_view_title = f" - {view}" if view != None else ""
+
     header = html.Header([
         html.Header([
             logo.layout(2, secondary="#e0e0e0"),
-            html.H2(children=["Dashboard - " + view],
+            html.H2(children=["Dashboard" + str_view_title],
                     className="header_title"),
         ], className="header")
     ])
 
     main = html.Main([
-        html.Nav(children=[
-            html.Div(children=[
-                html.A(children=[
-                    html.I(className="bi-house-fill"),
-                    html.Span("Inicio")
-                ], href="./inicio", className="nav"),
-                html.A(children=[
-                    html.I(className="bi-file-earmark-text-fill"),
-                    html.Span("Reportes")
-                ], href="./reportes", className="nav"),
-                html.A(children=[
-                    html.I(className="bi-sliders2"),
-                    html.Span("Configuraciones")
-                ], href="./insumos/ver/10", className="nav")
-
-            ])
-        ], className="nav"),
+        navigate.layout(),
         dcc.Location(id="urlDash", refresh=True),
         html.Div(lyD, className="main_content")
     ])

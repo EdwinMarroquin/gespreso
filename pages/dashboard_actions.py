@@ -1,11 +1,15 @@
 import dash
 
 dash.register_page(
-    __name__, path_template='/dashboard/<database>/<action>/<code>')
+    __name__, name="dashboard", path_template='/dashboard/<database>/<action>/<code>')
 
 
 def layout(database=None, action=None, code=None, **other_unknown_query_strings):
-    return dash.html.Div([
-        dash.html.Div(
-            f"Base de datos: {database} - Accion: {action} - Codigo: {code}")
-    ])
+    if database == 'insumos':
+        tb = "ver_grupos_insumos"
+        if action == 'ver':
+            return
+        if action == 'editar':
+            return
+        if action == 'eliminar':
+            return

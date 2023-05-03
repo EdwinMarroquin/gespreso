@@ -1,13 +1,13 @@
 import dash
-from dash import html
+from dash import html, dcc
 
 
 def layout():
     links = [
         {
             "icon": "bi-box-seam",
-            "label": "INSUMOS",
-            "url": "./insumos"
+            "label": "GRUPO INSUMOS",
+            "url": "./grupos"
         },
         {
             "icon": "bi-boxes",

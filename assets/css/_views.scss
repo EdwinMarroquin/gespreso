@@ -27,4 +27,21 @@ article {
     justify-content: center;
     align-items: center;
   }
+
+  &.insumos {
+    &.informe {
+      display: initial;
+      .table {
+        height: auto;
+        margin-bottom: 2rem;
+        max-height: fit-content;
+        table {
+          height: 100%;
+          th {
+            position: initial;
+          }
+        }
+      }
+    }
+  }
 }

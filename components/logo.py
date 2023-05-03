@@ -8,4 +8,4 @@ def layout(size=2, primary="#43A047", secondary="#263238"):
         html.Span('P', style={'color': primary}),
         html.Span('res', style={'color': secondary}),
         html.Span('O', style={'color': primary}),
-    ], className="logo", style={'font-size': str(16*size)+'px'})
+    ], className="logo", style={'fontSize': str(16*size)+'px'})

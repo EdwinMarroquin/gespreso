@@ -112,6 +112,36 @@ a {
   table {
     width: 100%;
     border-collapse: collapse;
+    caption {
+      text-transform: uppercase;
+      color: var(--light);
+      font-weight: 900;
+      font-size: 1.5rem;
+      background: var(--accent);
+      padding: 0.25rem;
+      border-bottom: 1px solid var(--light);
+      .caption {
+        &-title {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+        }
+        &-action {
+          margin-left: 2rem;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          background: var(--light);
+          color: var(--accent);
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 2rem;
+          font-size: 1.25rem;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
     thead {
       tr {
         th {
@@ -120,6 +150,7 @@ a {
           background: var(--accent);
           color: var(--light);
           padding: 0.5rem 1rem;
+          text-transform: uppercase;
           &:nth-child(2) {
             width: 100%;
           }
@@ -127,11 +158,16 @@ a {
       }
     }
     tbody {
+      &.hide {
+        display: none;
+      }
       tr {
         &:nth-child(even) {
           background: whitesmoke;
         }
         td {
+          height: 100%;
+          vertical-align: middle;
           &:first-child {
             text-align: center;
             font-weight: bold;
@@ -139,7 +175,8 @@ a {
           &.actions {
             display: flex;
             flex-direction: row;
-            justify-content: space-around;
+            justify-content: center;
+            align-items: center;
           }
           padding: 0.5rem;
         }
@@ -160,6 +197,9 @@ a {
   }
   &-underline {
     text-decoration: underline;
+  }
+  &-center {
+    text-align: center;
   }
 }
 
@@ -359,5 +399,9 @@ a {
   }
   &.row {
     flex-direction: row;
+  }
+  &.middle {
+    justify-content: center;
+    align-items: center;
   }
 }
