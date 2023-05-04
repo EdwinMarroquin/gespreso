@@ -1,6 +1,5 @@
 import dash
-from dash import html, dcc
-import grasia_dash_components as gdc
+from dash import dcc, html, Input, Output
 from db import database as ddb
 
 app = dash.Dash(__name__)
@@ -13,6 +12,7 @@ def layout():
     records = db.custom_read(table_name=tb)
 
     insumos_dict = {}
+
     for insumo in records:
         key = insumo[1]
         value = {
@@ -25,7 +25,7 @@ def layout():
         else:
             insumos_dict[key] = [value]
 
-    table_data = [gdc.Import(src="./assets/js/tables.js")]
+    table_data = []
     table_ids = [f'tableBody{i}' for i in range(
         1, 1 + len(insumos_dict.items()))]
     kit = 0
@@ -41,23 +41,25 @@ def layout():
                                href=f"/dashboard/insumos/ver/{item['id']}"), className="d-flex middle")
             ]
             rows.append(html.Tr(row))
-        table_data.append(html.Div(html.Table([
-            html.Caption([
-                html.Span(key, className="caption-title"),
-                html.I(
-                    id=f'buttonTable{kit}',
-                    n_clicks=0,
-                    **{'aria-label': 'showBody'},
-                    className="bi bi-three-dots-vertical caption-action"
-                )
-            ]),
-            html.Thead(html.Tr([
-                html.Th('ID'),
-                html.Th('Nombre'),
-                html.Th('Unidad'),
-                html.Th('Acciones')
-            ])),
-            html.Tbody(rows, id=f"tableBody{kit}")
-        ], id=f"table{kit}", className="tableId"), className="table"))
+        table_data.append(html.Div(children=[
+            html.Table([
+                html.Caption([
+                    html.Span(key, className="caption-title"),
+                    html.Button(
+                        id=f'buttonTable{kit}',
+                        n_clicks=0,
+                        **{'aria-label': 'showBody'},
+                        className="bi bi-list-nested caption-action"
+                    )
+                ]),
+                html.Thead(html.Tr([
+                    html.Th('ID'),
+                    html.Th('Nombre'),
+                    html.Th('Unidad'),
+                    html.Th('Acciones')
+                ]), id=f"tableHead{kit}"),
+                html.Tbody(rows, id=f"tableBody{kit}", style={
+                           'color': 'black'})
+            ], id=f"table{kit}", className="tableId")], className="table"))
 
     return html.Article(table_data, className="insumos informe")
