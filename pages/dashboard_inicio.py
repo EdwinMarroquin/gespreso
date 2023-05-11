@@ -5,6 +5,11 @@ from dash import html
 def layout():
     links = [
         {
+            "icon": "bi-columns-gap",
+            "label": "UNIDADES",
+            "url": "./unidades"
+        },
+        {
             "icon": "bi-box-seam",
             "label": "INSUMOS",
             "url": "./insumos"

@@ -15,6 +15,7 @@ def generate(
     db = database.DB()
     info = db.info_table(table)
     records = db.read_all(table)
+    print(records)
     rows = []
     heads = []
 
@@ -42,8 +43,54 @@ def generate(
         html.Thead(html.Tr(heads)),
         html.Tbody(rows)
     ]), className="table"),
-        html.A(href=f"/dashboard/{context}/nuevo/...", children=[
+        html.A(href=f"/dashboard/{context}/nuevo/{len(records) + 1}", children=[
             html.I(className="bi-node-plus-fill"),
             html.Span(f"NUEVO {context}", style={
                       'text-transform': 'uppercase'})
-        ], className="btn btn-large btn-dark text-bold")], className=context)
+        ], className="btn btn-large btn-dark text-bold", style={'margin-top': '1rem', 'min-height': '2.5rem'})], className=context)
+
+
+def list(title=None,  data=None):
+    """
+    Genera una lista vertical del tipo clave - valor
+    """
+
+    rows = []
+    rows.append(html.H1(f'tabla {title}', className=f'ver_titulo'))
+    for i, p in enumerate(data["columns"]):
+        rows.append(
+            html.P([
+                html.Span(f'{p}:',
+                          className=f'ver_info_clave'),
+                html.Span(data["records"][0][i], className=f'ver_info_valor')
+            ], className=f'ver_info')
+        )
+
+    return html.Article(children=rows)
+
+
+def info(title=None, data=None):
+    """
+    retorna una estructura en forma de tabla
+    """
+    rows = []
+    heads = []
+    for i, p in enumerate(data["columns"]):
+        heads.append(html.Th(p))
+
+    for record in data["records"]:
+        cells = []
+        for i, p in enumerate(data["columns"]):
+            cells.append(html.Td(record[i]))
+        rows.append(html.Tr(cells))
+
+    return html.Article([
+        html.H1(f'tabla {title}', className=f'ver_titulo'),
+        html.Div(
+            children=[
+                html.Table([
+                    html.Thead(html.Tr(heads)),
+                    html.Tbody(rows)
+                ])
+            ], className='table')
+    ], className="informes")

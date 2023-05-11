@@ -1,19 +1,18 @@
 import dash
-from dash import dcc, html, Input, Output
+from dash import html, Input, Output, State
 from db import database as ddb
-
-app = dash.Dash(__name__)
 
 
 def layout():
+
     tb = "ver_grupos_insumos"
     db = ddb.DB()
-    info = db.info_table(tb)
     records = db.custom_read(table_name=tb)
+    info = db.info_table(tb)
 
     insumos_dict = {}
 
-    for insumo in records:
+    for insumo in records["records"]:
         key = insumo[1]
         value = {
             'id': insumo[2],
@@ -37,18 +36,22 @@ def layout():
                 html.Td(item['id']),
                 html.Td(item['nombre']),
                 html.Td(item['unidad']),
-                html.Td(html.A([html.I(className="bi-eye-fill"), html.Span('Ver')], className="btn btn-success",
-                               href=f"/dashboard/insumos/ver/{item['id']}"), className="d-flex middle")
-            ]
+                html.Td(html.A([
+                    html.I(className="bi-eye-fill"),
+                    html.Span('Ver')], className="btn btn-success",
+                    href=f"/dashboard/insumos/ver/{item['id']}"),
+                    className="d-flex middle")]
             rows.append(html.Tr(row))
+        buttonTable = f'buttonTable{kit}'
+        bodyTable = f'bodyTable{kit}'
+        headTable = f'headTable{kit}'
         table_data.append(html.Div(children=[
             html.Table([
                 html.Caption([
                     html.Span(key, className="caption-title"),
                     html.Button(
-                        id=f'buttonTable{kit}',
+                        id=buttonTable,
                         n_clicks=0,
-                        **{'aria-label': 'showBody'},
                         className="bi bi-list-nested caption-action"
                     )
                 ]),
@@ -57,9 +60,26 @@ def layout():
                     html.Th('Nombre'),
                     html.Th('Unidad'),
                     html.Th('Acciones')
-                ]), id=f"tableHead{kit}"),
-                html.Tbody(rows, id=f"tableBody{kit}", style={
-                           'color': 'black'})
+                ]), id=headTable, style={"display": "none"}),
+                html.Tbody(
+                    rows,
+                    id=bodyTable,
+                    style={"display": "none"})
             ], id=f"table{kit}", className="tableId")], className="table"))
+
+        # @app.callback(
+        #     [Output(bodyTable, 'style'),
+        #         Output(headTable, 'style')],
+        #     [Input(buttonTable, 'n_clicks')],
+        #     [State(bodyTable, 'style')]
+        # )
+        # def toggle_table(n_clicks, style):
+        #     style_display = 'none'
+        #     if n_clicks % 2 == 0:
+        #         style_display = 'table-row-group'
+        #     else:
+        #         style_display = 'none'
+
+        #     return {'display': style_display}
 
     return html.Article(table_data, className="insumos informe")

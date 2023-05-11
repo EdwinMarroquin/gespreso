@@ -47,7 +47,6 @@ class DB:
         self.cursor.execute(query)
         records = self.cursor.fetchall()
 
-        # return [self._convert_to_dict(record) for record in records]
         return records
 
     def read_one(self, table_name, record_id):
@@ -64,27 +63,27 @@ class DB:
         record = self.cursor.fetchone()
 
         if record:
-            return self._convert_to_dict(record)
+            # return self._convert_to_dict(record)
+            return record
         else:
             return None
 
-    def custom_read(self, table_name, where=None, order_by=None, group_by=None):
+    def custom_read(self, table_name=None, columns=None, where=None, order_by=None, group_by=None):
         """
         Devuelve todos los registros de la tabla especificada.
         :param table_name: nombre de la tabla
         :return: lista de registros en forma de diccionarios
         """
+        str_columns = f'{columns}' if columns != None else "*"
         str_where = f"WHERE {where}" if where != None else ""
         str_order_by = f"ORDER BY {order_by}" if order_by != None else ""
         str_group_by = f"GROUP BY {group_by}" if group_by != None else ""
 
-        query = f"SELECT * FROM {table_name} {str_where} {str_group_by} {str_order_by}"
-
+        query = f"SELECT {str_columns} FROM {table_name} {str_where} {str_group_by} {str_order_by}"
         self.cursor.execute(query)
         records = self.cursor.fetchall()
 
-        # return [self._convert_to_dict(record) for record in records]
-        return records
+        return {'records': records, 'columns': next(zip(*self.cursor.description))}
 
     def update(self, table_name, record_id, data):
         """

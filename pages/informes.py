@@ -1,5 +1,5 @@
 import dash
-from dash import html, dcc
+from dash import html
 
 
 def layout():
@@ -32,7 +32,7 @@ def layout():
     ]
 
     paths = [html.A([html.I(className="card-icon " + link["icon"]), html.Span(link["label"],
-                    className="card-label"), ], href=link["url"], className="card") for link in links]
+                    className="card-label"), ], href=link["url"], className="card bg-text-dark") for link in links]
 
     return html.Article(
         children=paths,

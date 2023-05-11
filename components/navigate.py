@@ -8,11 +8,12 @@ def layout():
             html.A(children=[
                 html.I(className="bi-house-fill"),
                 html.Span("Inicio")
-            ], href="/dashboard/inicio"),
+            ], href="/dashboard/inicio", className="bg-text-accent"),
             html.A(children=[
                 html.I(className="bi-file-earmark-text-fill"),
                 html.Span("Informes")
-            ], href="/dashboard/informes/inicio"),
+            ], href="/dashboard/informes/inicio", className="bg-text-dark"),
+
             # html.A(children=[
             #     html.I(className="bi-sliders2"),
             #     html.Span("Configuraciones")
