@@ -4,7 +4,11 @@ from components import logo, navigate, footer
 from pages import dashboard_inicio, dashboard_unidades, dashboard_insumos, dashboard_items, dashboard_subcapitulos, dashboard_capitulos, dashboard_presupuestos
 
 app = dash.Dash(__name__)
-dash.register_page(__name__, path_template='/dashboard/<view>')
+dash.register_page(
+    __name__,
+    path_template='/dashboard/<view>',
+    title='Gespreso - Dashboard'
+)
 
 
 def layout(view=None):

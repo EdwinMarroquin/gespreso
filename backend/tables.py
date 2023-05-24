@@ -2,9 +2,9 @@ import dash
 from dash import dcc, Input, Output, State
 
 
-def show_body_tables(app):
+def show_body_tables():
     for i in range(1, 6):
-        @app.callback(
+        @dash.callback(
             Output(f'bodyTable{i}', 'style'),
             Output(f'headTable{i}', 'style'),
             Output(f'buttonTable{i}', 'className'),

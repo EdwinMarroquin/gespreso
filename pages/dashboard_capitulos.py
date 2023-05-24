@@ -9,7 +9,7 @@ def layout():
             table.generate(
                 table='capitulos',
                 context='capitulos',
-                actions={'ver': True, 'editar': True, 'eliminar': False}
+                actions={'ver': False, 'editar': True, 'eliminar': True}
             )
         ],
         className='capitulos'

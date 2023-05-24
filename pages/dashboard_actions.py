@@ -1,29 +1,84 @@
 import dash
+import inspect
+import importlib
 from dash import html, dcc
 from components import logo, navigate
 from components.forms import nuevo, ver, editar, eliminar
+from db import database
+
+db = database.DB()
 
 dash.register_page(
-    __name__, path_template='/dashboard/<database>/<action>/<code>')
+    __name__,
+    path_template='/dashboard/<table_name>/<action>/<record_id>',
+    title='Gespreso - Tablas'
+)
 
 
-def layout(database=None, action=None, code=None):
+def valida_vista(module_name, function_name, argument):
+    module = importlib.import_module(module_name)
+    function = getattr(module, function_name, None)
+    if inspect.isfunction(function):
+        return function(argument)
+    else:
+        return None
+
+
+def layout(table_name=None, action=None, record_id=None):
     lyI = []
-    if database == 'insumos':
-        if action == 'nuevo':
-            lyI = html.Article(nuevo.layout(
-                database, 'ver_insumos', code), className=f'action {action}')
-        if action == 'ver':
-            lyI = html.Article(ver.layout(
-                database, 'insumos', code), className=f'action {action}')
-        if action == 'editar':
-            lyI = html.Article(editar.layout(
-                database, 'ver_insumos', code), className=f'action {action}')
-        if action == 'eliminar':
-            lyI = html.Article(eliminar.layout(
-                database, 'ver_insumos', code), className=f'action {action}')
+    view = html.H1('oops!', className="d-flex middle margin-auto")
 
-    str_view_title = f" - {database}" if database != None else ""
+# Vistas CRUD del dashboarda
+    # Vitas de insumos
+    if table_name == 'insumos':
+        if action == 'nuevo':
+            view = nuevo.insumos(table_name)
+        if action == 'ver':
+            view = ver.insumos(record_id)
+        if action == 'editar':
+            view = editar.insumos(record_id)
+        if action == 'eliminar':
+            view = eliminar.layout(table_name, record_id)
+
+    # Vitas de unidades
+    if table_name == 'unidades':
+        if action == 'nuevo':
+            view = nuevo.unidades(table_name)
+        if action == 'ver':
+            view = ver.unidades(table_name)
+        if action == 'editar':
+            view = editar.unidades(record_id)
+        if action == 'eliminar':
+            view = eliminar.layout(table_name, record_id)
+
+    # Vistas de items
+    if table_name == 'items':
+        if action == 'nuevo':
+            view = nuevo.items(table_name)
+        if action == 'ver':
+            view = ver.items(record_id)
+        if action == 'editar':
+            view = editar.items(record_id)
+        if action == 'eliminar':
+            view = eliminar.layout(table_name, record_id)
+
+    # Vistas de subcapitulos
+    if table_name == 'subcapitulos':
+        if action == 'editar':
+            view = editar.subcapitulos(record_id)
+        if action == 'eliminar':
+            view = eliminar.layout(table_name, record_id)
+
+    # Vistas de capitulos
+    if table_name == 'capitulos':
+        if action == 'editar':
+            view = editar.capitulos(record_id)
+        if action == 'eliminar':
+            view = eliminar.layout(table_name, record_id)
+
+    lyI = html.Article(view, className=f'action {action}')
+
+    str_view_title = f" - {table_name}" if table_name != None else ""
     header = html.Header([
         html.Header([
             logo.layout(2, secondary="#e0e0e0"),

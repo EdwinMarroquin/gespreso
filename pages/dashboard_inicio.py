@@ -31,7 +31,7 @@ def layout():
         },
         {
             "icon": "bi-building",
-            "label": "PRESUPUESTOS",
+            "label": "PRESUPUESTO",
             "url": "./presupuestos"
         }
     ]

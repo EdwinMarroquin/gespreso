@@ -15,7 +15,6 @@ def generate(
     db = database.DB()
     info = db.info_table(table)
     records = db.read_all(table)
-    print(records)
     rows = []
     heads = []
 

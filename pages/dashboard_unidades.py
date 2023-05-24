@@ -9,7 +9,7 @@ def layout():
             table.generate(
                 table='unidades',
                 context='unidades',
-                actions={'ver': False, 'editar': True, 'eliminar': False}
+                actions={'ver': False, 'editar': True, 'eliminar': True}
             )
         ],
         className='unidades'

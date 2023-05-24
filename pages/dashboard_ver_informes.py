@@ -4,7 +4,10 @@ from components import logo, navigate
 from pages import informes, informe_grupos_insumos
 
 dash.register_page(
-    __name__, path_template='/dashboard/informes/<view>')
+    __name__,
+    path_template='/dashboard/informes/<view>',
+    title='Gespreso - Informes'
+)
 
 
 def layout(view=None, filter=None):

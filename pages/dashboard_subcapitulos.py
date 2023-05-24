@@ -9,7 +9,7 @@ def layout():
             table.generate(
                 table='subcapitulos',
                 context='subcapitulos',
-                actions={'ver': True, 'editar': True, 'eliminar': True}
+                actions={'ver': False, 'editar': True, 'eliminar': True}
             )
         ],
         className='subcapitulos'

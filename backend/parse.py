@@ -1,6 +1,10 @@
 import json
 
 
+def currencySql2number(str):
+    return float(str.replace("$", "").replace(",", ""))
+
+
 def jsonPresupuesto(header, tuples):
     result = {}
 
