@@ -4,6 +4,12 @@ from components import table
 
 
 def layout():
+    """
+    Genera el layout de la sección de subcapítulos.
+
+    Returns:
+        html.Article: El layout de la sección de subcapítulos.
+    """
     return html.Article(
         [
             table.generate(

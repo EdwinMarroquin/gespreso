@@ -4,8 +4,16 @@ from db import database
 from components import table, table_where
 
 
-def insumos(id):
+def insumos(record_id):
+    """
+    Obtiene información sobre los insumos y los insumos consumidos de un ID específico.
 
+    Args:
+        record_id (int): ID del insumo.
+
+    Returns:
+        list: Lista de elementos HTML con la información de los insumos y los insumos consumidos.
+    """
     rows = []
 
     db = database.DB()
@@ -15,7 +23,7 @@ def insumos(id):
             title='insumo',
             data=db.custom_read(
                 table_name=f'ver_insumos',
-                where=f'id={id}'
+                where=f'id={record_id}'
             )
         )
     )
@@ -25,18 +33,28 @@ def insumos(id):
             data=db.custom_read(
                 table_name=f'ver_insumos_presupuesto',
                 columns='id, item, subcapitulo, capitulo, cantidad, rendimiento, precio, subtotal',
-                where=f'id={id}'
+                where=f'id={record_id}'
             )
         )
     )
+
     return rows
 
 
 def items(record_id):
+    """
+    Genera una estructura HTML para mostrar los detalles de un item.
+
+    Args:
+        record_id (int): ID del item.
+
+    Returns:
+        dash.html.Article: Estructura HTML con los detalles del item.
+    """
     db = database.DB()
     data = db.custom_read(table_name='ver_uso_insumos',
                           where=f"id_item = {record_id}")
-    print(data)
+
     info = data["columns"]
     insumos = data["records"]
 
@@ -55,9 +73,10 @@ def items(record_id):
     tbody = []
 
     head = []
+    columns = [0, 1, 9, 10, 11, 12]
 
     for i, k in enumerate(info):
-        if i == 0 or i == 1 or i == 9 or i == 10 or i == 11 or i == 12:
+        if i in columns:
             head.append(html.Th(k))
 
     thead.append(html.Tr(head))
@@ -65,7 +84,7 @@ def items(record_id):
     for insumo in insumos:
         trow = []
         for i, k in enumerate(info):
-            if i == 0 or i == 1 or i == 9 or i == 10 or i == 11 or i == 12:
+            if i in columns:
                 if i == 12 or i == 11:
                     trow.append(
                         html.Td(
@@ -136,7 +155,6 @@ def items(record_id):
                         html.A(
                             [
                                 html.I(className="bi bi-pencil-fill"),
-                                # html.Span('Editar'),
                             ],
                             className="btn btn-s btn-info text-left",
                             style={"margin-right": ".5rem"},
@@ -161,7 +179,7 @@ def items(record_id):
     )
 
     info_item.append(html.Div(info_item_descripcion,
-                     className="head-item-desc"))
+                              className="head-item-desc"))
 
     body.append(html.Div(info_item, className="head"))
 

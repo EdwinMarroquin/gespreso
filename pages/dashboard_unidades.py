@@ -4,6 +4,12 @@ from components import table
 
 
 def layout():
+    """
+    Genera el layout de la sección de unidades.
+
+    Returns:
+        html.Article: El layout de la sección de unidades.
+    """
     return html.Article(
         [
             table.generate(

@@ -4,6 +4,16 @@ from db import database
 
 
 def layout(table_name, record_id):
+    """
+    Genera una estructura HTML para eliminar un registro.
+
+    Args:
+        table_name (str): Nombre de la tabla.
+        record_id (int): ID del registro.
+
+    Returns:
+        dash.html.A: Estructura HTML para eliminar el registro.
+    """
     db = database.DB()
 
     info = db.read_one(table_name, record_id)

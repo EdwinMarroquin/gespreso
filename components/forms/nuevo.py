@@ -4,24 +4,34 @@ from db import database
 
 
 def unidades(table_name):
+    """
+    Genera una estructura HTML para crear una nueva unidad.
+
+    Args:
+        table_name (str): Nombre de la tabla.
+
+    Returns:
+        dash.html.Article: Estructura HTML para la creación de la unidad.
+    """
     db = database.DB()
     info = db.read_all('sqlite_sequence')
-    lastId = int([i[1] for i in info if i[0] == table_name][0])
+    last_id = int([i[1] for i in info if i[0] == table_name][0])
+
     rows = [
         dcc.Location(id='url', refresh=True),
         html.H1(
-            f'Creacion de nueva unidad',
+            'Creacion de nueva unidad',
             className='form-title'
         ),
         html.P([
             html.Label(
-                'id',
+                'ID',
                 className='form-group-label',
             ),
             html.Div([
                 dcc.Input(
                     id='id',
-                    value=f'{lastId + 1}',
+                    value=f'{last_id + 1}',
                     disabled=True,
                     className='form-group-label',
                 )
@@ -29,7 +39,7 @@ def unidades(table_name):
         ], className='form-group'),
         html.P([
             html.Label(
-                'unidad',
+                'Unidad',
                 className='form-group-label'
             ),
             html.Div([
@@ -41,7 +51,7 @@ def unidades(table_name):
         ], className='form-group'),
         html.P([
             html.Label(
-                'abreviatura',
+                'Abreviatura',
                 className='form-group-label'
             ),
             html.Div([
@@ -62,7 +72,6 @@ def unidades(table_name):
                 id='buttonSaveunidades'
             ),
             className="form-group d-flex"
-
         )
     ]
 
@@ -70,13 +79,23 @@ def unidades(table_name):
 
 
 def insumos(table_name):
+    """
+    Genera una estructura HTML para la creación de un nuevo insumo.
+
+    Args:
+        table_name (str): Nombre de la tabla de insumos.
+
+    Returns:
+        dash.html.Article: Estructura HTML para la creación del insumo.
+    """
     db = database.DB()
     info = db.read_all('sqlite_sequence')
     insumos = db.custom_read(table_name, '*')
     unidades = db.read_all('unidades')
     grupos = db.read_all('grupos')
-    lastId = int([i[1] for i in info if i[0] == table_name][0])
+    last_id = int([i[1] for i in info if i[0] == table_name][0])
     rows = []
+
     rows.append(dcc.Location(id='url', refresh=True))
     rows.append(
         html.H1(
@@ -96,7 +115,7 @@ def insumos(table_name):
                     html.Div([
                         dcc.Input(
                             id=input_value,
-                            value=f'{lastId + 1}',
+                            value=f'{last_id + 1}',
                             disabled=True,
                             className='form-group-label',
                         )
@@ -155,6 +174,7 @@ def insumos(table_name):
                         ], className="dash")
                     ], className='form-group')
                 )
+
     rows.append(
         html.P(
             html.Div(
@@ -167,7 +187,7 @@ def insumos(table_name):
                 id='buttonSave'
             ),
             className="form-group d-flex"
-
         )
     )
+
     return html.Article(rows, className="d-flex middle col form")

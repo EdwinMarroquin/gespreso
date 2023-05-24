@@ -1,7 +1,15 @@
 import dash
 from dash import html, dcc
 from components import logo, navigate, footer
-from pages import dashboard_inicio, dashboard_unidades, dashboard_insumos, dashboard_items, dashboard_subcapitulos, dashboard_capitulos, dashboard_presupuestos
+from pages import (
+    dashboard_inicio,
+    dashboard_unidades,
+    dashboard_insumos,
+    dashboard_items,
+    dashboard_subcapitulos,
+    dashboard_capitulos,
+    dashboard_presupuestos
+)
 
 app = dash.Dash(__name__)
 dash.register_page(
@@ -12,23 +20,43 @@ dash.register_page(
 
 
 def layout(view=None):
-    lyD = []
-    lyD = dashboard_inicio.layout() if view == "inicio" or view == None or view == '' else lyD
-    lyD = dashboard_insumos.layout() if view == "insumos" else lyD
-    lyD = dashboard_unidades.layout() if view == "unidades" else lyD
-    lyD = dashboard_items.layout() if view == "items" else lyD
-    lyD = dashboard_subcapitulos.layout() if view == "subcapitulos" else lyD
-    lyD = dashboard_capitulos.layout() if view == "capitulos" else lyD
-    lyD = dashboard_presupuestos.layout() if view == "presupuestos" else lyD
+    """
+    Genera el layout del dashboard.
 
-    str_view_title = f" - {view}" if view != None else ""
+    Args:
+        view (str): Vista actual del dashboard.
+
+    Returns:
+        html.Div: El layout del dashboard.
+    """
+    lyD = []
+
+    if view == "inicio" or view is None or view == '':
+        lyD = dashboard_inicio.layout()
+    elif view == "insumos":
+        lyD = dashboard_insumos.layout()
+    elif view == "unidades":
+        lyD = dashboard_unidades.layout()
+    elif view == "items":
+        lyD = dashboard_items.layout()
+    elif view == "subcapitulos":
+        lyD = dashboard_subcapitulos.layout()
+    elif view == "capitulos":
+        lyD = dashboard_capitulos.layout()
+    elif view == "presupuestos":
+        lyD = dashboard_presupuestos.layout()
+
+    str_view_title = f" - {view}" if view is not None else ""
 
     header = html.Header([
-        html.Header([
-            logo.layout(2, secondary="#e0e0e0"),
-            html.H2(children=["Dashboard" + str_view_title],
-                    className="header_title"),
-        ], className="header")
+        html.Div(
+            [
+                logo.layout(2, secondary="#e0e0e0"),
+                html.H2(children=["Dashboard" + str_view_title],
+                        className="header_title"),
+            ],
+            className="header"
+        )
     ])
 
     main = html.Main([

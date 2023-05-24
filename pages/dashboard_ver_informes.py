@@ -11,20 +11,36 @@ dash.register_page(
 
 
 def layout(view=None, filter=None):
+    """
+    Genera el layout del dashboard de informes.
+
+    Args:
+        view (str): Vista actual del dashboard.
+        filter: Filtro aplicado en los informes (no se utiliza actualmente).
+
+    Returns:
+        html.Div: El layout del dashboard de informes.
+    """
     lyI = None
-    lyI = informes.layout() if view == "inicio" or view == None else lyI
-    lyI = informe_grupos_insumos.layout() if view == "grupos" else lyI
 
-    if lyI == None:
-        return
+    if view == "inicio" or view is None:
+        lyI = informes.layout()
+    elif view == "grupos":
+        lyI = informe_grupos_insumos.layout()
 
-    str_view_title = f" - {view}" if view != None else ""
+    if lyI is None:
+        return None
+
+    str_view_title = f" - {view}" if view is not None else ""
     header = html.Header([
-        html.Header([
-            logo.layout(2, secondary="#e0e0e0"),
-            html.H2(children=["INFORMES" + str_view_title],
-                    className="header_title"),
-        ], className="header")
+        html.Div(
+            [
+                logo.layout(2, secondary="#e0e0e0"),
+                html.H2(children=["INFORMES" + str_view_title],
+                        className="header_title"),
+            ],
+            className="header"
+        )
     ])
 
     main = html.Main([
@@ -34,6 +50,7 @@ def layout(view=None, filter=None):
     ])
 
     footer = html.Footer()
+
     return html.Div(
         [
             html.Link(href="./assets/icon/bootstrap-icons.css"),

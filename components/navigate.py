@@ -3,21 +3,49 @@ from dash import html
 
 
 def layout():
-    return html.Nav(children=[
-        html.Div(children=[
-            html.A(children=[
-                html.I(className="bi-house-fill"),
-                html.Span("Inicio")
-            ], href="/dashboard/inicio", className="bg-text-dark"),
-            # html.A(children=[
-            #     html.I(className="bi-file-earmark-text-fill"),
-            #     html.Span("Informes")
-            # ], href="/dashboard/informes/inicio", className="bg-text-dark"),
+    """
+    Genera el layout de la barra de navegación.
 
-            # html.A(children=[
-            #     html.I(className="bi-sliders2"),
-            #     html.Span("Configuraciones")
-            # ], href="./insumos/ver/10", className="last")
+    Returns:
+        html.Nav: Un elemento Nav que contiene los elementos de la barra de navegación.
+    """
+    routes = [
+        {
+            'route': '/dashboard/inicio',
+            'class_name': 'bg-text-dark',
+            'label': 'Inicio',
+            'icon': 'bi bi-house'
+        },
+        # {
+        #     'route': '/dashboard/informes',
+        #     'class_name': 'bg-text-dark',
+        #     'label': 'Informes',
+        #     'icon': 'bi bi-journal-richtext'
+        # },
+        {
+            'route': 'https://github.com/EdwinMarroquin/gespreso/issues',
+            'class_name': 'last bg-text-accent',
+            'target': '_new',
+            'label': 'Errores/Sugerencias',
+            'icon': 'bi bi-bug'
+        }
+    ]
 
-        ])
-    ], className="nav")
+    return html.Nav(
+        children=[
+            html.Div(
+                children=[
+                    html.A(
+                        children=[
+                            html.I(className=route.get('icon')),
+                            html.Span(route.get('label'))
+                        ],
+                        href=route.get('route'),
+                        className=route.get('class_name'),
+                        target=route.get('target')
+                    ) for route in routes
+                ]
+            )
+        ],
+        className="nav"
+    )

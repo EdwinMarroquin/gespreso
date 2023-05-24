@@ -10,8 +10,17 @@ dash.register_page(
 
 
 def layout():
-    return html.Main([
-        logo.layout(5),
-        html.Br(),
-        html.A('INGRESAR', href='/dashboard/inicio', className="button")
-    ], className="home_main")
+    """
+    Genera el layout de la página principal.
+
+    Returns:
+        html.Main: El layout de la página principal.
+    """
+    return html.Main(
+        [
+            logo.layout(5),
+            html.Br(),
+            html.A('INGRESAR', href='/dashboard/inicio', className="button")
+        ],
+        className="home_main"
+    )

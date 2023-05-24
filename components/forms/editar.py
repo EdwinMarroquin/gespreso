@@ -4,13 +4,26 @@ from db import database
 
 
 def insumos(record_id):
+    """
+    Genera una estructura HTML para la edición de un insumo.
+
+    Args:
+        record_id (int): ID del insumo a editar.
+
+    Returns:
+        dash.html.Article: Estructura HTML de la edición del insumo.
+    """
     db = database.DB()
     insumos = db.custom_read('insumos', '*', f'id={record_id}')
     unidades = db.read_all('unidades')
     grupos = db.read_all('grupos')
     insumo = insumos["records"][0]
     rows = []
+
+    # Location para actualizar la URL
     rows.append(dcc.Location(id='url', refresh=True))
+
+    # Título de la edición del insumo
     rows.append(
         html.H1(
             f'Edicion del insumo {insumo[1]}',
@@ -20,6 +33,7 @@ def insumos(record_id):
 
     for input_index, input_value in enumerate(insumos["columns"]):
         if input_value == 'id':
+            # Campo de ID (desactivado)
             rows.append(
                 html.P([
                     html.Label(
@@ -38,6 +52,7 @@ def insumos(record_id):
             )
         else:
             if input_value == 'unidad_id':
+                # Dropdown para seleccionar unidad
                 rows.append(
                     html.P([
                         html.Label(
@@ -57,6 +72,7 @@ def insumos(record_id):
                     ], className='form-group')
                 )
             elif input_value == 'grupo_id':
+                # Dropdown para seleccionar grupo
                 rows.append(
                     html.P([
                         html.Label(
@@ -75,6 +91,7 @@ def insumos(record_id):
                     ], className='form-group')
                 )
             else:
+                # Campo de entrada de texto
                 rows.append(
                     html.P([
                         html.Label(
@@ -90,6 +107,8 @@ def insumos(record_id):
                         ], className="dash")
                     ], className='form-group')
                 )
+
+    # Botón de actualización
     rows.append(
         html.P(
             html.Div(
@@ -105,18 +124,29 @@ def insumos(record_id):
 
         )
     )
+
     return html.Article(rows, className="d-flex middle col form")
 
 
 def unidades(record_id):
+    """
+    Genera una estructura HTML para la edición de una unidad.
+
+    Args:
+        record_id (int): ID de la unidad a editar.
+
+    Returns:
+        dash.html.Article: Estructura HTML de la edición de la unidad.
+    """
     db = database.DB()
     info = db.read_all('sqlite_sequence')
     unidades = db.custom_read('unidades', '*', f'id={record_id}')
     unidad = unidades["records"][0]
+
     rows = [
         dcc.Location(id='url', refresh=True),
         html.H1(
-            f'Editar unidad',
+            'Editar unidad',
             className='form-title'
         ),
         html.P([
@@ -127,7 +157,7 @@ def unidades(record_id):
             html.Div([
                 dcc.Input(
                     id='id',
-                    value=f'{unidad[0]}',
+                    value=unidad[0],
                     disabled=True,
                     className='form-group-label',
                 )
@@ -142,7 +172,7 @@ def unidades(record_id):
                 dcc.Input(
                     className='form-group-input',
                     id='nombre',
-                    value=f'{unidad[1]}',
+                    value=unidad[1],
                 )
             ], className="dash")
         ], className='form-group'),
@@ -155,7 +185,7 @@ def unidades(record_id):
                 dcc.Input(
                     className='form-group-input',
                     id='abreviatura',
-                    value=f'{unidad[2]}',
+                    value=unidad[2],
                 )
             ], className="dash")
         ], className='form-group'),
@@ -170,7 +200,6 @@ def unidades(record_id):
                 id='buttonUpdateunidades'
             ),
             className="form-group d-flex"
-
         )
     ]
 
@@ -199,8 +228,10 @@ def items(record_id):
 
     head = []
 
+    columns = [0, 1, 9, 10, 11, 12]
+
     for i, k in enumerate(info):
-        if i == 0 or i == 1 or i == 9 or i == 10 or i == 11 or i == 12:
+        if i in columns:
             head.append(html.Th(k))
 
     thead.append(html.Tr(head))
@@ -209,7 +240,7 @@ def items(record_id):
         trow = []
         for i, k in enumerate(info):
             btn = False
-            if i == 0 or i == 1 or i == 9 or i == 10 or i == 11 or i == 12:
+            if i in columns:
                 if i == 12 or i == 11:
                     trow.append(
                         html.Td(
@@ -389,12 +420,22 @@ def items(record_id):
 
 
 def subcapitulos(record_id):
+    """
+    Genera una estructura HTML para editar un subcapítulo.
+
+    Args:
+        record_id (int): ID del subcapítulo.
+
+    Returns:
+        dash.html.Article: Estructura HTML para editar el subcapítulo.
+    """
     db = database.DB()
 
-    subcapitulo = db.custom_read(table_name='subcapitulos',
-                                 where=f"id = {record_id}")["records"][0]
+    subcapitulo = db.custom_read(
+        table_name='subcapitulos', where=f"id = {record_id}")["records"][0]
 
     capitulos = db.read_all('capitulos')
+
     rows = [
         dcc.Location(id="url", refresh=True),
         html.H1('Editar subcapitulo', className="form-title"),
@@ -431,7 +472,8 @@ def subcapitulos(record_id):
                         for v in capitulos
                     ]
                 ),
-            ], className="form-group"),
+            ], className="form-group"
+        ),
         html.P(
             html.Div(
                 [
@@ -443,7 +485,6 @@ def subcapitulos(record_id):
                 id='buttonUpdatesubcapitulo'
             ),
             className="form-group d-flex"
-
         )
     ]
 
@@ -451,10 +492,19 @@ def subcapitulos(record_id):
 
 
 def capitulos(record_id):
+    """
+    Genera una estructura HTML para editar un capítulo.
+
+    Args:
+        record_id (int): ID del capítulo.
+
+    Returns:
+        dash.html.Article: Estructura HTML para editar el capítulo.
+    """
     db = database.DB()
 
-    subcapitulo = db.custom_read(table_name='capitulos',
-                                 where=f"id = {record_id}")["records"][0]
+    capitulo = db.custom_read(table_name='capitulos',
+                              where=f"id = {record_id}")["records"][0]
 
     rows = [
         dcc.Location(id="url", refresh=True),
@@ -464,18 +514,18 @@ def capitulos(record_id):
             html.Div([
                 dcc.Input(
                     id="id",
-                    value=subcapitulo[0],
+                    value=capitulo[0],
                     disabled=True,
                     className='form-group-input'
                 )
             ], className="dash-input")
         ], className="form-group"),
         html.P([
-            html.Label('Subcapitulo', className='form-group-label'),
+            html.Label('Capitulo', className='form-group-label'),
             html.Div([
                 dcc.Input(
                     id="nombre",
-                    value=subcapitulo[1],
+                    value=capitulo[1],
                     className='form-group-input'
                 )
             ], className="dash-input")
@@ -491,7 +541,6 @@ def capitulos(record_id):
                 id='buttonUpdatecapitulo'
             ),
             className="form-group d-flex"
-
         )
     ]
 
