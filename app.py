@@ -2,8 +2,8 @@ import dash
 import backend
 from dash import html, dcc
 from flask import redirect
-from backend import tables
-from backend import database
+from backend import tables as btb
+from backend import database as bdb
 
 
 app = dash.Dash(
@@ -17,20 +17,20 @@ app.layout = dash.page_container
 
 app.title = 'Gespreso'
 
-backend.tables.show_body_tables()
-backend.database.redirect_after_delete()
-backend.database.redirect_after_update()
-backend.database.redirect_after_save()
-backend.database.redirect_after_save_custom('unidades')
-backend.database.redirect_after_update_unidades()
-backend.database.update_after_change_select()
-backend.database.redirect_after_add()
-backend.database.redirect_previously()
-backend.database.eliminar_insumo_item()
-backend.database.redirect_after_update_subcapitulos()
-backend.database.redirect_after_update_capitulos()
-backend.database.redirect_after_save_capitulo()
-backend.database.redirect_after_save_subcapitulo()
+btb.show_body_tables()
+dbd.redirect_after_delete()
+dbd.redirect_after_update()
+dbd.redirect_after_save()
+dbd.redirect_after_save_custom('unidades')
+dbd.redirect_after_update_unidades()
+dbd.update_after_change_select()
+dbd.redirect_after_add()
+dbd.redirect_previously()
+dbd.eliminar_insumo_item()
+dbd.redirect_after_update_subcapitulos()
+dbd.redirect_after_update_capitulos()
+dbd.redirect_after_save_capitulo()
+dbd.redirect_after_save_subcapitulo()
 
 
 if __name__ == "__main__":
