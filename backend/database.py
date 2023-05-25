@@ -4,6 +4,8 @@ from flask import redirect, request
 from dash import dcc, Input, Output, State
 from db import database
 
+db = database.DB()
+
 
 def redirect_after_delete():
     @dash.callback(
@@ -15,13 +17,11 @@ def redirect_after_delete():
     )
     def eliminar_registro(n_clicks, table_name, record_id):
         if n_clicks is not None:
-            db = database.DB()
             db.delete(table_name, record_id)
             return f'/dashboard/{table_name}'
 
 
 def redirect_after_update():
-    db = database.DB()
     data = db.custom_read('insumos')
     columns = data["columns"]
 
@@ -49,7 +49,6 @@ def redirect_after_update():
 
 
 def redirect_after_update_unidades():
-    db = database.DB()
     data = db.custom_read('unidades')
     columns = data["columns"]
 
@@ -80,7 +79,6 @@ def redirect_after_update_unidades():
 
 
 def redirect_after_save():
-    db = database.DB()
     data = db.custom_read('insumos')
 
     @dash.callback(
@@ -111,7 +109,6 @@ def redirect_after_save():
 
 
 def redirect_after_save_custom(table_name):
-    db = database.DB()
     data = db.custom_read(table_name)
 
     @dash.callback(
@@ -141,7 +138,6 @@ def redirect_after_save_custom(table_name):
 
 
 def update_after_change_select():
-    db = database.DB()
     data = db.read_all('insumos')
 
     @dash.callback(
@@ -159,7 +155,6 @@ def update_after_change_select():
 
 
 def redirect_after_add():
-    db = database.DB()
     data = db.custom_read('insumos')
 
     @dash.callback(
@@ -208,7 +203,6 @@ def redirect_previously():
 
 
 def eliminar_insumo_item():
-    db = database.DB()
     data = db.custom_read('insumos')
     insumos = data["records"]
     for i in insumos:
@@ -234,7 +228,6 @@ def eliminar_insumo_item():
 
 
 def redirect_after_update_subcapitulos():
-    db = database.DB()
     data = db.custom_read('subcapitulos')
     columns = data["columns"]
 
@@ -265,7 +258,6 @@ def redirect_after_update_subcapitulos():
 
 
 def redirect_after_update_capitulos():
-    db = database.DB()
     data = db.custom_read('capitulos')
     columns = data["columns"]
 
@@ -295,7 +287,6 @@ def redirect_after_update_capitulos():
 
 
 def redirect_after_save_capitulo():
-    db = database.DB()
     data = db.custom_read('capitulos')
 
     @dash.callback(
@@ -324,7 +315,6 @@ def redirect_after_save_capitulo():
 
 
 def redirect_after_save_subcapitulo():
-    db = database.DB()
     data = db.custom_read('subcapitulos')
 
     @dash.callback(

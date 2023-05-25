@@ -4,7 +4,7 @@ from dash import html, dcc
 from flask import redirect
 from backend import tables
 from backend import database
-1
+
 
 app = dash.Dash(
     __name__,
