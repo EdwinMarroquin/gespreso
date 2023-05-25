@@ -292,3 +292,62 @@ def redirect_after_update_capitulos():
                 print('Error en la informacion')
 
         return f'/dashboard/capitulos/'
+
+
+def redirect_after_save_capitulo():
+    db = database.DB()
+    data = db.custom_read('capitulos')
+
+    @dash.callback(
+        Output('url', 'pathname', allow_duplicate=True),
+        Input('buttonSavecapitulo', 'n_clicks'),
+        [State(f'{col}', 'value') for col in data["columns"]],
+        prevent_initial_call=True
+    )
+    def crear_registro(n_clicks, id, nombre):
+        data = {
+            'id': id,
+            'nombre': nombre,
+        }
+
+        if n_clicks is not None:
+
+            if data["id"] or data["nombre"]:
+                db.create(
+                    table_name='capitulos',
+                    data=data
+                )
+            else:
+
+                print('Error en la informacion')
+        return f'/dashboard/capitulos/'
+
+
+def redirect_after_save_subcapitulo():
+    db = database.DB()
+    data = db.custom_read('subcapitulos')
+
+    @dash.callback(
+        Output('url', 'pathname', allow_duplicate=True),
+        Input('buttonSavesubcapitulo', 'n_clicks'),
+        [State(f'{col}', 'value') for col in data["columns"]],
+        prevent_initial_call=True
+    )
+    def crear_registro(n_clicks, id, nombre, capitulo_id):
+        data = {
+            'id': id,
+            'nombre': nombre,
+            'capitulo_id': capitulo_id,
+        }
+
+        if n_clicks is not None:
+
+            if data["id"] or data["nombre"] or data["capitulo_id"]:
+                db.create(
+                    table_name='subcapitulos',
+                    data=data
+                )
+            else:
+
+                print('Error en la informacion')
+        return f'/dashboard/subcapitulos/'

@@ -64,6 +64,8 @@ def layout(table_name=None, action=None, record_id=None):
 
     # Vistas de subcapitulos
     if table_name == 'subcapitulos':
+        if action == 'nuevo':
+            view = nuevo.subcapitulos(record_id)
         if action == 'editar':
             view = editar.subcapitulos(record_id)
         if action == 'eliminar':
@@ -71,6 +73,8 @@ def layout(table_name=None, action=None, record_id=None):
 
     # Vistas de capitulos
     if table_name == 'capitulos':
+        if action == 'nuevo':
+            view = nuevo.capitulos(record_id)
         if action == 'editar':
             view = editar.capitulos(record_id)
         if action == 'eliminar':

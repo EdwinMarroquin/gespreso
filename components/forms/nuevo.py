@@ -191,3 +191,121 @@ def insumos(table_name):
     )
 
     return html.Article(rows, className="d-flex middle col form")
+
+
+def subcapitulos(record_id):
+    """
+    Genera una estructura HTML para editar un subcapítulo.
+
+    Args:
+        record_id (int): ID del subcapítulo.
+
+    Returns:
+        dash.html.Article: Estructura HTML para editar el subcapítulo.
+    """
+
+    db = database.DB()
+    capitulos = db.read_all('capitulos')
+
+    rows = [
+        dcc.Location(id="url", refresh=True),
+        html.H1('Editar subcapitulo', className="form-title"),
+        html.P([
+            html.Label('ID', className='form-group-label'),
+            html.Div([
+                dcc.Input(
+                    id="id",
+                    value=record_id,
+                    disabled=True,
+                    className='form-group-input'
+                )
+            ], className="dash-input")
+        ], className="form-group"),
+        html.P([
+            html.Label('Subcapitulo', className='form-group-label'),
+            html.Div([
+                dcc.Input(
+                    id="nombre",
+                    className='form-group-input'
+                )
+            ], className="dash-input")
+        ], className="form-group"),
+        html.P(
+            [
+                html.Label('Capitulo', className='form-group-label'),
+                dcc.Dropdown(
+                    id='capitulo_id',
+                    className='form-group-label',
+                    options=[
+                        {'label': v[1], 'value': v[0]}
+                        for v in capitulos
+                    ]
+                ),
+            ], className="form-group"
+        ),
+        html.P(
+            html.Div(
+                [
+                    html.I(className="bi bi-box"),
+                    html.Span("Crear subcapitulo")
+                ],
+                className="btn btn-large btn-dark",
+                style={'margin': '2rem 0 1rem auto'},
+                id='buttonSavesubcapitulo'
+            ),
+            className="form-group d-flex"
+        )
+    ]
+
+    return html.Article(rows, className="d-flex middle col form")
+
+
+def capitulos(record_id):
+    """
+    Genera una estructura HTML para editar un capítulo.
+
+    Args:
+        record_id (int): ID del capítulo.
+
+    Returns:
+        dash.html.Article: Estructura HTML para editar el capítulo.
+    """
+
+    rows = [
+        dcc.Location(id="url", refresh=True),
+        html.H1('Editar capitulo', className="form-title"),
+        html.P([
+            html.Label('ID', className='form-group-label'),
+            html.Div([
+                dcc.Input(
+                    id="id",
+                    value=record_id,
+                    disabled=True,
+                    className='form-group-input'
+                )
+            ], className="dash-input")
+        ], className="form-group"),
+        html.P([
+            html.Label('Capitulo', className='form-group-label'),
+            html.Div([
+                dcc.Input(
+                    id="nombre",
+                    className='form-group-input'
+                )
+            ], className="dash-input")
+        ], className="form-group"),
+        html.P(
+            html.Div(
+                [
+                    html.I(className="bi bi-box"),
+                    html.Span("Crear capitulo")
+                ],
+                className="btn btn-large btn-dark",
+                style={'margin': '2rem 0 1rem auto'},
+                id='buttonSavecapitulo'
+            ),
+            className="form-group d-flex"
+        )
+    ]
+
+    return html.Article(rows, className="d-flex middle col form")

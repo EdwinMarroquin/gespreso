@@ -29,6 +29,8 @@ backend.database.redirect_previously()
 backend.database.eliminar_insumo_item()
 backend.database.redirect_after_update_subcapitulos()
 backend.database.redirect_after_update_capitulos()
+backend.database.redirect_after_save_capitulo()
+backend.database.redirect_after_save_subcapitulo()
 
 
 if __name__ == "__main__":
